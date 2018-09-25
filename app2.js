@@ -4,20 +4,15 @@ document.getElementById("getText").addEventListener("click", getText);
 
 function getText(e) {
   fetch("textData.txt")
-    .then(function(response) {
-      return response.text();
+    .then(response => response.text())
 
-      /*.then(function(data) {
-      console.log(data);
-    });*/
-    })
-    .then(function(text) {
+    .then(text => {
       document.getElementById(
         "output"
       ).innerHTML = `<b>Fetch Text:</b> ${text}`;
     })
-    .catch(function(error) {
-      console.log(new Error("Something went Wrong"));
+    .catch(error => {
+      console.log(new Error("Something went Wrong " + error));
     });
 }
 
@@ -26,18 +21,16 @@ document.getElementById("getJson").addEventListener("click", getJson);
 //JSon Event Handler
 function getJson(e) {
   fetch("jsondata.json")
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(data) {
+    .then(response => response.json())
+    .then(data => {
       let output = "";
       data.forEach(function(person) {
         output += `<li>${person.name} work for ${person.company}</li>`;
       });
       document.getElementById("output").innerHTML = output;
     })
-    .catch(function(error) {
-      console.log("something went really sideways");
+    .catch(error => {
+      console.log("something went really sideways " + error);
     });
 }
 
@@ -46,10 +39,10 @@ document.getElementById("getAPI").addEventListener("click", getAPI);
 //API Event Handler
 function getAPI(e) {
   fetch("https://api.coinmarketcap.com/v2/ticker/1/") // 1 is for bitcoin on this api
-    .then(function(response) {
-      return response.json(); //stream json
-    })
-    .then(function(coin) {
+    .then(
+      response => response.json() //stream json
+    )
+    .then(coin => {
       btc = coin.data;
       output = `<li><b>${btc.symbol}</b> ${btc.name} value ${
         btc.quotes.USD.price
@@ -57,12 +50,12 @@ function getAPI(e) {
       <li> Value Change in 1hr: ${btc.quotes.USD.percent_change_1h} %</li>`;
       document.getElementById("output").innerHTML = output;
     })
-    .catch(function(error) {
+    .catch(error => {
       console.log("something went really sideways   " + error);
     });
 }
 
-//fetch Currenty
+//fetch Currency
 document.getElementById("getCurrency").addEventListener("click", getCurrency);
 let id;
 //API Event Handler
@@ -71,10 +64,10 @@ function getCurrency(e) {
   e.preventDefault();
 
   fetch("https://api.coinmarketcap.com/v2/listings/") // 1 is for bitcoin on this api
-    .then(function(response) {
-      return response.json(); //stream json
-    })
-    .then(function(coin) {
+    .then(
+      response => response.json() //stream json
+    )
+    .then(coin => {
       btc = coin.data;
       btc.forEach(function(element) {
         if (element.symbol == symbolETC) {
@@ -83,17 +76,17 @@ function getCurrency(e) {
       });
       getAPI2(e);
     })
-    .catch(function(error) {
+    .catch(error => {
       console.log("something went really sideways   " + error);
     });
 }
 
 function getAPI2(e) {
   fetch(`https://api.coinmarketcap.com/v2/ticker/${id}/`) // 1 is for bitcoin on this api
-    .then(function(response) {
-      return response.json(); //stream json
-    })
-    .then(function(coin) {
+    .then(
+      response => response.json() //stream json
+    )
+    .then(coin => {
       btc = coin.data;
       output = `<li><b>${btc.symbol}</b> ${btc.name} value ${
         btc.quotes.USD.price
@@ -101,7 +94,7 @@ function getAPI2(e) {
         <li> Value Change in 1hr: ${btc.quotes.USD.percent_change_1h} %</li>`;
       document.getElementById("output").innerHTML = output;
     })
-    .catch(function(error) {
+    .catch(error => {
       console.log("something went really sideways   " + error);
     });
 }
